@@ -1,11 +1,10 @@
-import { User } from "../../model/User";
-import { IUsersRepository } from "../../repositories/IUsersRepository";
+import { User } from "../../../model/User";
+import { IUsersRepository } from "../../../repositories/IUsersRepository";
 
 interface IRequest {
   user_id: string;
 }
-
-class TurnUserAdminUseCase {
+class ShowUserProfileUseCase {
   constructor(private usersRepository: IUsersRepository) {}
 
   execute({ user_id }: IRequest): User {
@@ -14,11 +13,9 @@ class TurnUserAdminUseCase {
     if (!user) {
       throw new Error("This user is not exists");
     }
-    user.admin = true;
-    this.usersRepository.turnAdmin(user);
 
     return user;
   }
 }
 
-export { TurnUserAdminUseCase };
+export { ShowUserProfileUseCase };
