@@ -9,7 +9,7 @@ $ yarn
 # Execute a aplicação
 $ yarn dev
 ```
-<strong> Para ver a documentação consulte <a href='/localhost:3333/api-doc'>localhost:3333/api-docs</a> </strong>
+<strong> Para ver a documentação consulte o seu <a href='#'>localhost:3333/api-docs</a> </strong>
 
 ### 🛠 Tecnologias
 
