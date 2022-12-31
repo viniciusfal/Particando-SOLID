@@ -1,0 +1,263 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "name": "Praticando S.O.L.I.D",
+    "description": "Aplicação que tem como intenção aplicar os conceitos de solid",
+    "version": "1.0.0",
+    "contact": {
+      "email": "vinicius_prsilva@hotmail.com"
+    }
+  },
+  "paths": {
+    "/users": {
+    "post": {
+      "tags": ["Users"],
+      "summary": "Criar um novo usuario",
+      "description": "Crie um novo usuário preenchendo o `name` e o `email` no corpo da requisição",
+      "requestBody": {
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "email": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "name": "John doe",
+                "email": "johndoe@gmail.com"
+              }
+            } 
+          }
+        }
+      },
+      "responses": {
+        "201": {
+          "description": "Usuário criado com sucesso",
+          "content": {
+          "application/json": {
+
+            "schema": {
+              "properties": {
+                "id": {
+                  "type": "string" 
+                },
+                "admin": {
+                  "type": "boolean"
+                },
+                "email": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "created_at": {
+                  "type": "Date"
+                },
+                "updated_at": {
+                  "type": "Date"
+                }
+              },
+              "type": "object",
+              "example": {
+                "id": "98a9f2d7-457f-4b9a-b1cb-d3e2738e9cc0",
+                "admin": false,
+                "email": "johndoe@gmail.com",
+                "name": "John doe",
+                "created_at": "2022-12-31T03:41:41.297Z",
+                "updated_at": "2022-12-31T03:41:41.297Z"
+              }
+            }
+          } 
+        }
+        },
+        "400": {
+          "description": "O Email já esta sendo utilizado",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "error": "This E-mail already exists"
+                }
+              }
+            }
+          }
+        }
+      }
+      },
+
+      "get": {
+        "tags": ["Users"],
+        "summary": "Listar todos os usuarios",
+        "description": "Somente usuário `Admin` pode acessar",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Usuarios listados com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "example":[
+                  {
+                      "id": "98a9f2d7-457f-4b9a-b1cb-d3e2738e9cc0",
+                      "admin": false,
+                      "email": "johndoe@gmail.com",
+                      "name": "John doe",
+                      "created_at": "2022-12-31T03:41:41.297Z",
+                      "updated_at": "2022-12-31T03:41:41.297Z"
+                    },
+                    {
+                      "id": "8b9f2d7-457f-4b9a-b1cb-d3e2738e9cc1",
+                      "admin": false,
+                      "email": "mariafranco@hotmail.com",
+                      "name": "Maria Franco",
+                      "created_at": "2023-01-31T03:41:41.297Z",
+                      "updated_at": "2023-01-31T03:41:41.297Z"
+                    }
+                  ]
+                }
+              
+              }
+            }
+          },
+          "400": {
+            "descripton": "usuário sem permissão ou  usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "error": "You need to be an administrator to list all user"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/users/{user_id}": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Retornar um usuário especifico",
+        "description": "Insira pelo parâmetro da rota um `id` válido,  do usuário que deseja buscar",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "operação realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "id": "98a9f2d7-457f-4b9a-b1cb-d3e2738e9cc0",
+                    "admin": false,
+                    "email": "johndoe@gmail.com",
+                    "name": "John doe",
+                    "created_at": "2022-12-31T03:41:41.297Z",
+                    "updated_at": "2022-12-31T03:41:41.297Z"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "eror": "This user is not exists"
+                  }
+                }
+              }
+            }
+          }
+        }   
+  }
+
+    },
+    "/users/{user_id}/admin": {
+      "patch": {
+        "tags": ["Users"],
+        "summary": "Tornar um usuario admin",
+        "description": "Insira pelo parâmetro da rota, um `id` de u suário que deseja mudar seu status de `admin` ",
+        "parameters":[
+          {
+            "in": "path",
+            "name": "user_id",
+            "required": true,
+            "schema": {
+              "type":"string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operação realizada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "id": "98a9f2d7-457f-4b9a-b1cb-d3e2738e9cc0",
+                    "admin": true, 
+                    "email": "johndoe@gmail.com",
+                    "name": "John doe",
+                    "created_at": "2022-12-31T03:41:41.297Z",
+                    "updated_at": "2022-12-31T03:41:41.297Z"
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Usuário não encontrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "example": {
+                    "error": "User not found"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+
+    
