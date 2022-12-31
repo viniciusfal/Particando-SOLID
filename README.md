@@ -24,5 +24,5 @@ Utilizei as seguintes ferramentas na construção do projeto:
 > Veja o arquivo  [package.json]()
 
 
-Obs: Apenas os testes dessa aplicação foram implementados pela equipe da Rocketseat durante o bootcamp Ignite.
+Obs: Apenas os testes dessa aplicação foram implementados pela equipe da Rocketseat, durante o bootcamp Ignite.
 
